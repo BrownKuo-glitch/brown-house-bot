@@ -98,8 +98,15 @@ def parse_sinyi(url):
     post_id = mid.group(1) if mid else url[-8:]
     clean_url = f"https://www.sinyi.com.tw/buy/house/{post_id}"
     s = requests.Session()
-    s.headers.update({**HEADERS, "Accept": "text/html", "Referer": "https://www.sinyi.com.tw/"})
-    r = s.get(clean_url, timeout=15)
+    s.headers.update({
+        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "zh-TW,zh;q=0.9",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Referer": "https://www.sinyi.com.tw/buy/list",
+        "Connection": "keep-alive",
+    })
+    r = s.get(clean_url, timeout=20)
     html = r.text
     title = ""
     mm = re.search(r'<title>([^<]+)</title>', html)
